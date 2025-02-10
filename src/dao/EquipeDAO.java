@@ -82,4 +82,21 @@ public class EquipeDAO {
             System.out.println("Erreur lors de la suppression : " + e.getMessage());
         }
     }
+    
+    public int getIdParNom(String nom) {
+        String sql = "SELECT id FROM Equipe WHERE nom = ?";
+        try (Connection conn = DriverManager.getConnection(URL);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, nom);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("id");
+            }
+        } catch (SQLException e) {
+            System.out.println("Erreur lors de la récupération de l'ID de l'équipe : " + e.getMessage());
+        }
+        return -1; // Retourne -1 si l'équipe n'est pas trouvée
+    }
+
 }
