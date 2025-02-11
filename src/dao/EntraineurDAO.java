@@ -51,16 +51,24 @@ public class EntraineurDAO {
     }
 
     // 🔹 Modifier un entraîneur
-    public void modifierEntraineur(int id, String nom) {
-        String sql = "UPDATE Entraineur SET nom = ? WHERE id = ?";
+ // 🔹 Modifier un entraîneur (mise à jour complète)
+    public void modifierEntraineur(int id, Entraineur entraineur) {
+        String sql = "UPDATE Entraineur SET nom = ?, prenom = ?, date_naissance = ? WHERE id = ?";
 
         try (Connection conn = DriverManager.getConnection(URL);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setString(1, nom);
-            pstmt.setInt(2, id);
-            pstmt.executeUpdate();
-            System.out.println("Entraîneur mis à jour.");
+            pstmt.setString(1, entraineur.getNom());
+            pstmt.setString(2, entraineur.getPrenom());
+            pstmt.setString(3, entraineur.getDateNaissance());
+            pstmt.setInt(4, id);
+
+            int affectedRows = pstmt.executeUpdate();
+            if (affectedRows > 0) {
+                System.out.println("Entraîneur mis à jour avec succès.");
+            } else {
+                System.out.println("Aucun entraîneur trouvé avec cet ID.");
+            }
         } catch (SQLException e) {
             System.out.println("Erreur lors de la modification : " + e.getMessage());
         }

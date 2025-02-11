@@ -55,20 +55,31 @@ public class JoueurDAO {
     }
 
     // 🔹 3. Modifier un joueur
-    public void modifierJoueur(int id, String poste) {
-        String sql = "UPDATE Joueur SET poste = ? WHERE id = ?";
+ // 🔹 Modifier un joueur (mise à jour complète)
+    public void modifierJoueur(int id, Joueur joueur) {
+        String sql = "UPDATE Joueur SET nom = ?, prenom = ?, poste = ?, date_naissance = ?, equipe_id = ? WHERE id = ?";
 
         try (Connection conn = DriverManager.getConnection(URL);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setString(1, poste);
-            pstmt.setInt(2, id);
-            pstmt.executeUpdate();
-            System.out.println("Joueur mis à jour.");
+            pstmt.setString(1, joueur.getNom());
+            pstmt.setString(2, joueur.getPrenom());
+            pstmt.setString(3, joueur.getPoste());
+            pstmt.setString(4, joueur.getDateNaissance());
+            pstmt.setInt(5, joueur.getEquipeId());
+            pstmt.setInt(6, id);
+
+            int affectedRows = pstmt.executeUpdate();
+            if (affectedRows > 0) {
+                System.out.println("Joueur mis à jour avec succès.");
+            } else {
+                System.out.println("Aucun joueur trouvé avec cet ID.");
+            }
         } catch (SQLException e) {
             System.out.println("Erreur lors de la modification : " + e.getMessage());
         }
     }
+
 
     // 🔹 4. Supprimer un joueur
     public void supprimerJoueur(int id) {

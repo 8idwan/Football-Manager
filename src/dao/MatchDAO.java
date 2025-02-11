@@ -69,6 +69,31 @@ public class MatchDAO {
             System.out.println("Erreur lors de la mise à jour du résultat : " + e.getMessage());
         }
     }
+    
+ // 🔹 Modifier un match (mise à jour complète)
+    public void modifierMatch(int id, Match match) {
+        String sql = "UPDATE Match SET nom = ?, lieu = ?, equipe1_id = ?, equipe2_id = ?, resultat = ? WHERE id = ?";
+
+        try (Connection conn = DriverManager.getConnection(URL);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, match.getNom());
+            pstmt.setString(2, match.getLieu());
+            pstmt.setInt(3, match.getEquipe1Id());
+            pstmt.setInt(4, match.getEquipe2Id());
+            pstmt.setString(5, match.getResultat());
+            pstmt.setInt(6, id);
+
+            int affectedRows = pstmt.executeUpdate();
+            if (affectedRows > 0) {
+                System.out.println("Match mis à jour avec succès.");
+            } else {
+                System.out.println("Aucun match trouvé avec cet ID.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Erreur lors de la modification : " + e.getMessage());
+        }
+    }
 
     // 🔹 Supprimer un match
     public void supprimerMatch(int id) {
