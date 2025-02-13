@@ -8,5 +8,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="C:/Users/Ridouane/Downloads/sqlite-jdbc-3.49.0.0.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Ridouane/Desktop/Master IM/S2/Méthodes agiles/Phase 2 - Dév/Projet/FootballManager/lib/jcalendar-1.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ridouane/Desktop/Master IM/S2/Méthodes agiles/Phase 2 - Dév/Projet/FootballManager/lib/itextpdf-5.5.13.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

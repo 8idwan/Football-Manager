@@ -6,10 +6,17 @@ import java.util.List;
 
 import models.Joueur;
 
+/**
+ * Classe JoueurDAO permettant d'interagir avec la base de données pour gérer les joueurs.
+ */
 public class JoueurDAO {
     private static final String URL = "jdbc:sqlite:football.db";
 
-    // 🔹 1. Ajouter un joueur
+    /**
+     * Ajoute un joueur à la base de données.
+     * 
+     * @param joueur Le joueur à ajouter.
+     */
     public void ajouterJoueur(Joueur joueur) {
         String sql = "INSERT INTO Joueur (nom, prenom, poste, date_naissance, equipe_id) VALUES (?, ?, ?, ?, ?)";
 
@@ -28,7 +35,11 @@ public class JoueurDAO {
         }
     }
 
-    // 🔹 2. Lire tous les joueurs
+    /**
+     * Récupère la liste de tous les joueurs.
+     * 
+     * @return Une liste de joueurs.
+     */
     public List<Joueur> listerJoueurs() {
         List<Joueur> joueurs = new ArrayList<>();
         String sql = "SELECT * FROM Joueur";
@@ -54,8 +65,12 @@ public class JoueurDAO {
         return joueurs;
     }
 
-    // 🔹 3. Modifier un joueur
- // 🔹 Modifier un joueur (mise à jour complète)
+    /**
+     * Met à jour les informations d'un joueur dans la base de données.
+     * 
+     * @param id L'identifiant du joueur à modifier.
+     * @param joueur Les nouvelles informations du joueur.
+     */
     public void modifierJoueur(int id, Joueur joueur) {
         String sql = "UPDATE Joueur SET nom = ?, prenom = ?, poste = ?, date_naissance = ?, equipe_id = ? WHERE id = ?";
 
@@ -80,8 +95,11 @@ public class JoueurDAO {
         }
     }
 
-
-    // 🔹 4. Supprimer un joueur
+    /**
+     * Supprime un joueur de la base de données.
+     * 
+     * @param id L'identifiant du joueur à supprimer.
+     */
     public void supprimerJoueur(int id) {
         String sql = "DELETE FROM Joueur WHERE id = ?";
 

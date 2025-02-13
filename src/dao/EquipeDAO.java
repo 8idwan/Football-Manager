@@ -1,11 +1,21 @@
 package dao;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import models.Equipe;
+
+/**
+ * Classe DAO pour la gestion des équipes dans la base de données.
+ */
 public class EquipeDAO {
     private static final String URL = "jdbc:sqlite:football.db";
-    // 🔹 Ajouter une équipe
+
+    /**
+     * Ajoute une équipe à la base de données.
+     * 
+     * @param equipe L'équipe à ajouter.
+     */
     public void ajouterEquipe(Equipe equipe) {
         String sql = "INSERT INTO Equipe (nom, ville, pays, entraineur_id) VALUES (?, ?, ?, ?)";
         try (Connection conn = DriverManager.getConnection(URL);
@@ -20,7 +30,12 @@ public class EquipeDAO {
             System.out.println("Erreur lors de l'ajout de l'équipe : " + e.getMessage());
         }
     }
-    // 🔹 Lister toutes les équipes
+
+    /**
+     * Récupère la liste de toutes les équipes.
+     * 
+     * @return Liste des équipes enregistrées.
+     */
     public List<Equipe> listerEquipes() {
         List<Equipe> equipes = new ArrayList<>();
         String sql = "SELECT * FROM Equipe";
@@ -42,7 +57,13 @@ public class EquipeDAO {
         }
         return equipes;
     }
-    // 🔹 Modifier une équipe (mise à jour complète)
+
+    /**
+     * Met à jour une équipe existante dans la base de données.
+     * 
+     * @param id L'identifiant de l'équipe à modifier.
+     * @param equipe Les nouvelles informations de l'équipe.
+     */
     public void modifierEquipe(int id, Equipe equipe) {
         String sql = "UPDATE Equipe SET nom = ?, ville = ?, pays = ?, entraineur_id = ? WHERE id = ?";
         try (Connection conn = DriverManager.getConnection(URL);
@@ -58,7 +79,12 @@ public class EquipeDAO {
             System.out.println("Erreur lors de la modification : " + e.getMessage());
         }
     }
-    // 🔹 Supprimer une équipe
+
+    /**
+     * Supprime une équipe de la base de données.
+     * 
+     * @param id L'identifiant de l'équipe à supprimer.
+     */
     public void supprimerEquipe(int id) {
         String sql = "DELETE FROM Equipe WHERE id = ?";
         try (Connection conn = DriverManager.getConnection(URL);
@@ -70,7 +96,13 @@ public class EquipeDAO {
             System.out.println("Erreur lors de la suppression : " + e.getMessage());
         }
     }
-    
+
+    /**
+     * Récupère l'identifiant d'une équipe à partir de son nom.
+     * 
+     * @param nom Le nom de l'équipe.
+     * @return L'identifiant de l'équipe ou -1 si l'équipe n'est pas trouvée.
+     */
     public int getIdParNom(String nom) {
         String sql = "SELECT id FROM Equipe WHERE nom = ?";
         try (Connection conn = DriverManager.getConnection(URL);

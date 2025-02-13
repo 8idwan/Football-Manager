@@ -2,10 +2,15 @@ package ui;
 
 import javax.swing.*;
 import java.awt.*;
-import java.net.URL;
+import java.io.File;
 import javax.swing.border.LineBorder;
 
+/**
+ * Fenêtre principale de l'application Football Manager.
+ * Cette fenêtre inclut un titre, un logo, et des boutons de navigation pour accéder à différentes sections de l'application.
+ */
 public class MainFrame extends JFrame {
+    
     // Constants for colors and dimensions
     private static final Color BACKGROUND_COLOR = Color.decode("#cccebf");
     private static final Color BUTTON_BACKGROUND = Color.decode("#f0eae4");
@@ -19,19 +24,30 @@ public class MainFrame extends JFrame {
     private final JPanel mainPanel;
     private final String[] navigationButtons = {"Equipe", "Joueur", "Entraineur", "Match"};
 
+    /**
+     * Constructeur de la fenêtre principale.
+     * Initialise la fenêtre et le panneau principal.
+     */
     public MainFrame() {
         initializeFrame();
         mainPanel = createMainPanel();
         add(mainPanel);
     }
 
+    /**
+     * Initialise la fenêtre (titre, taille, comportement de fermeture, etc.).
+     */
     private void initializeFrame() {
         setTitle("Football Manager");
         setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
+        setLocationRelativeTo(null); // Centre la fenêtre
     }
 
+    /**
+     * Crée le panneau principal de la fenêtre.
+     * @return Le panneau principal contenant les éléments graphiques.
+     */
     private JPanel createMainPanel() {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBackground(BACKGROUND_COLOR);
@@ -42,6 +58,10 @@ public class MainFrame extends JFrame {
         return panel;
     }
 
+    /**
+     * Crée le panneau central contenant le logo, le titre et les boutons de navigation.
+     * @return Le panneau central.
+     */
     private JPanel createCenterPanel() {
         JPanel centerPanel = new JPanel();
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.X_AXIS));
@@ -60,6 +80,10 @@ public class MainFrame extends JFrame {
         return centerPanel;
     }
 
+    /**
+     * Crée un panneau contenant le logo et le titre de l'application.
+     * @return Le panneau avec le logo et le titre.
+     */
     private JPanel createLogoTitlePanel() {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
@@ -76,22 +100,31 @@ public class MainFrame extends JFrame {
         return panel;
     }
 
+    /**
+     * Crée un label pour afficher le logo de l'application.
+     * @return Le label contenant le logo.
+     */
     private JLabel createLogoLabel() {
-        URL logoURL = getClass().getResource("ressources/logo.png");
+        String logoPath = "./logo.png";
         ImageIcon logoIcon;
-        
-        if (logoURL != null) {
-            logoIcon = new ImageIcon(logoURL);
+
+        File file = new File(logoPath);
+        if (file.exists()) {
+            logoIcon = new ImageIcon(logoPath);
             Image img = logoIcon.getImage().getScaledInstance(LOGO_WIDTH, LOGO_HEIGHT, Image.SCALE_SMOOTH);
             logoIcon = new ImageIcon(img);
         } else {
             logoIcon = new ImageIcon();
-            System.err.println("Logo not found: ressources/logo.png");
+            System.err.println("⚠ Logo not found: " + file.getAbsolutePath());
         }
-        
+
         return new JLabel(logoIcon);
     }
 
+    /**
+     * Crée un panneau contenant le titre de l'application (Football Manager).
+     * @return Le panneau avec le titre.
+     */
     private JPanel createTitlePanel() {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -109,6 +142,10 @@ public class MainFrame extends JFrame {
         return panel;
     }
 
+    /**
+     * Crée un panneau contenant les boutons de navigation.
+     * @return Le panneau avec les boutons.
+     */
     private JPanel createButtonPanel() {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -125,6 +162,11 @@ public class MainFrame extends JFrame {
         return panel;
     }
 
+    /**
+     * Crée un bouton de navigation pour accéder aux différentes sections.
+     * @param label Le texte du bouton.
+     * @return Le bouton de navigation.
+     */
     private JButton createNavigationButton(String label) {
         JButton button = new JButton(label);
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -140,6 +182,10 @@ public class MainFrame extends JFrame {
         return button;
     }
 
+    /**
+     * Gère la navigation lorsque l'un des boutons est cliqué.
+     * @param label Le texte du bouton cliqué.
+     */
     private void handleNavigation(String label) {
         JPanel newPanel = switch (label) {
             case "Equipe" -> new EquipePanel();
@@ -151,6 +197,11 @@ public class MainFrame extends JFrame {
         setContent(mainPanel, newPanel);
     }
 
+    /**
+     * Remplace le contenu du panneau principal avec un nouveau panneau.
+     * @param mainPanel Le panneau principal.
+     * @param newPanel Le nouveau panneau à afficher.
+     */
     private void setContent(JPanel mainPanel, JPanel newPanel) {
         mainPanel.removeAll();
         mainPanel.add(newPanel, BorderLayout.CENTER);
@@ -158,6 +209,10 @@ public class MainFrame extends JFrame {
         mainPanel.repaint();
     }
 
+    /**
+     * Méthode principale pour démarrer l'application.
+     * @param args Les arguments en ligne de commande.
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             MainFrame frame = new MainFrame();
